@@ -1,42 +1,37 @@
 CryptoScraper — Real-time Crypto Info Aggregator
+Team: 9
 
-Project: CryptoScraper
-team:9
+Overview
+CryptoScraper is a dynamic web application that scrapes public cryptocurrency data from trusted sources and provides clean, real-time JSON endpoints. It features a modern frontend dashboard and demonstrates web scraping, backend API design, and deployment.
 
- Project Overview
+Use Cases
+Lightweight crypto price dashboard for hackathons and demos
 
-CryptoScraper is a dynamic web application that scrapes public cryptocurrency data from trusted sources and serves cleaned, easy-to-consume JSON to the frontend. The app demonstrates web scraping, backend APIs, and a simple frontend to display live crypto information.
+Aggregates price, 24h change, and market cap from public pages
 
-Use cases
-
-Lightweight crypto price dashboard for hackathon demos
-
-Aggregating price / 24h change / market cap from multiple public pages (demo only)
-
-Learning project for web scraping + deployment
+Learning project for web scraping, backend APIs, and deployment
 
 Features
-
-Scrapes public crypto pages (example: coin listing pages) to extract:
-
+Scrapes public crypto sites for live:
 name, symbol, price, 24h_change, market_cap, source_url, last_updated
 
-Simple REST endpoint to fetch scraped data
+Exposes a simple REST API for frontend use
 
-Basic frontend to display results
+Basic, stylish frontend to display real-time results
 
-Rate-limiting & caching recommendations (included in README)
+Written recommendations for rate-limiting & caching (see README)
 
-Deployable to Render (or similar services)
+Deployable to Render/Railway with minimal setup
 
- Tech Stack
+Tech Stack
+Backend: Python & Flask
 
-Backend: Python + Flask
+Scraping: requests + BeautifulSoup (or Selenium)
 
-Scraping: requests + BeautifulSoup (or Selenium if needed for JS-heavy pages)
+Frontend: HTML, CSS, JS
 
-Frontend: HTML, CSS, JavaScript (templates)
+Deployment: Render or Railway (Web Service)
 
-Deployment: Render (Web Service) or Railway
+Optional: SQLite/Redis for caching in production
 
-Optional: SQLite / Redis for caching (recommended for production)
+This project is ideal for learning or demoing rapid crypto data aggregation and live dashboard deployment.
