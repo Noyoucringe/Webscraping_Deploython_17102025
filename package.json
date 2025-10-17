@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "netlify dev",
-    "build": "echo \"Static site\"",
-    "start": "netlify dev"
+    "build": "echo \"static\"",
+    "dev": "netlify dev"
   },
+  "engines": { "node": "20.x" },
   "dependencies": {
     "@sparticuz/chrome-aws-lambda": "^29.0.0",
     "dotenv": "^16.4.5",
