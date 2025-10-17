@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Top Markets (Scraped from Binance)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar"><h1>Top Markets (Scraped from Binance)</h1></header>
+  <main class="container">
+    <p id="updated" class="muted"></p>
+    <table class="table" id="tbl">
+      <thead>
+        <tr><th>Symbol</th><th>Last Price</th><th>24h %</th><th>Volume</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div style="display:flex;gap:.75rem;">
+      <button id="refresh">Refresh From DB</button>
+      <button id="sync">Sync Now (Scrape)</button>
+    </div>
+  </main>
+
+  <script>
+    const pretty = s => s ? s.replace(/(USDT|USD|BUSD|USDC)$/,'/$1') : '—';
+    const fmt = n => (n == null || Number.isNaN(n)) ? '<span class="muted">—</span>' :
+      Number(n).toLocaleString(undefined,{ maximumFractionDigits: 8 });
+
+    async function load() {
+      const tbody = document.querySelector('#tbl tbody');
+      const updated = document.getElementById('updated');
+      tbody.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
+      try {
+        const res = await fetch('/api/markets?limit=20', { headers: { Accept: 'application/json' } });
+        const data = await res.json();
+        updated.textContent = 'Updated: ' + (data.updatedAt ? new Date(data.updatedAt).toLocaleString() : '—');
+        tbody.innerHTML = '';
+        (data.items || []).forEach(x => {
+          const tr = document.createElement('tr');
+          const pct = (x.changePct == null || Number.isNaN(Number(x.changePct))) ? null : Number(x.changePct);
+          tr.innerHTML = `
+            <td class="sym">${pretty(x.symbol)}</td>
+            <td>${fmt(x.lastPrice)}</td>
+            <td>${pct == null ? '<span class="badge">—</span>' : '<span class="badge ' + (pct>=0?'pos':'neg') + '">' + pct.toFixed(2) + '%</span>'}</td>
+            <td>${x.volumeText || '<span class="muted">—</span>'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+        if (!data.items?.length) tbody.innerHTML = '<tr><td colspan="4">No items.</td></tr>';
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="4">Error: ${e.message}</td></tr>`;
+      }
+    }
+    document.getElementById('refresh').addEventListener('click', load);
+    document.getElementById('sync').addEventListener('click', async () => {
+      const btn = document.getElementById('sync');
+      btn.disabled = true; btn.textContent = 'Syncing...';
+      try { await fetch('/api/scrape', { method: 'POST' }); await load(); }
+      finally { btn.disabled = false; btn.textContent = 'Sync Now (Scrape)'; }
+    });
+    load(); setInterval(load, 60_000);
+  </script>
+</body>
+</html>
