@@ -1,17 +1,19 @@
 {
   "name": "deploython",
   "version": "1.0.0",
-  "main": "backend.js",
+  "private": true,
   "scripts": {
-    "start": "node backend.js"
+    "dev": "netlify dev",
+    "build": "echo \"Static site\"",
+    "start": "netlify dev"
   },
-  "engines": { "node": ">=18 <22" },
   "dependencies": {
-    "cors": "^2.8.5",
+    "@sparticuz/chrome-aws-lambda": "^29.0.0",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "node-cron": "^3.0.3",
     "pg": "^8.12.0",
-    "puppeteer": "^22.15.0"
+    "puppeteer-core": "^22.15.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.33.1"
   }
 }

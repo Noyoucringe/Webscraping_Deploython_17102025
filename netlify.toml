@@ -1,0 +1,15 @@
+[functions]
+directory = "netlify/functions"
+node_bundler = "esbuild"
+external_node_modules = ["@sparticuz/chrome-aws-lambda","puppeteer-core","pg"]
+
+# Map /api/* to functions
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200
+
+# Scheduled scrape every 10 minutes
+[[scheduled.functions]]
+function = "cron-scrape"
+cron = "*/10 * * * *"
